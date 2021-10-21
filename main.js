@@ -7,5 +7,5 @@ function LR(){
 }
 
 function SR(){
-    
+    window.location="SR.html";
 }

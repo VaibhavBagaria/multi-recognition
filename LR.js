@@ -1,54 +1,49 @@
-img=""
-status=""
-height=0;
-width=0;
-x=0;
-y=0;
-label="";
-confidence=0;
-function preload(){
-    img=loadImage("LR.jpg")
+img = ""
+status = ""
+objects = []
+function preload() {
+    img = loadImage("LR.jpg")
 }
 
-function setup(){
-    canvas=createCanvas(500,450)
-    canvas.position(520,220)
-    object_detector=ml5.objectDetector('cocossd',modelLoaded)
-    document.getElementById("status").innerHTML="Status: Detecting Objects"
+function setup() {
+    canvas = createCanvas(500, 450)
+    canvas.position(520, 220)
+    object_detector = ml5.objectDetector('cocossd', modelLoaded)
+    document.getElementById("status").innerHTML = "Status: Detecting Objects"
 }
 
-function draw(){
-    image(img,0,0,500,450)
-    fill("red")
-    textSize(20)
-    text(label,x,y-5)
-    noFill()
-    stroke("red")
-    rect(x,y,width,height)
+function draw() {
+    image(img, 0, 0, 500, 450)
+    if (status != "") {
+        for (i = 0; i < objects.length; i++) {
+            document.getElementById("status").innerHTML = "Status: Objects Detected";
+            fill("red");
+            percent = floor(objects[i].confidence * 100);
+            textSize(20);
+            text(objects[i].label + " " + percent + "%", objects[i].x-330, objects[i].y - 300)
+            noFill()
+            stroke("red")
+            rect(objects[i].x-400, objects[i].y-300, objects[i].width-50, objects[i].height)
+        }
+    }
 }
 
-function modelLoaded(){
+function modelLoaded() {
     console.log("model Loaded")
-    status=true;
-    object_detector.detect(img,gotResults)
+    status = true;
+    object_detector.detect(img, gotResults)
 }
 
-function gotResults(error,results){
-    if(error){
+function gotResults(error, results) {
+    if (error) {
         console.log(error)
     }
-    else{
+    else {
         console.log(results)
-        height=results[0].height
-        width=results[0].width
-        x=results[0].x
-        y=results[0].y
-        label=results[0].label
-        confidence=(results[0].confidence*100).toFixed(1)
-        document.getElementById("status").innerHTML="Status: Object Detected"
+        objects = results
     }
 }
 
-function back(){
-    window.location="index.html";
+function back() {
+    window.location = "index.html";
 }

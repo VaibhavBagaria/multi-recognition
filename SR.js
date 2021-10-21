@@ -1,8 +1,8 @@
 img = ""
 status = ""
-objects=[]
+objects = []
 function preload() {
-    img = loadImage("bedroom.jpg")
+    img = loadImage("SR.jpg")
 }
 
 function setup() {
@@ -20,10 +20,10 @@ function draw() {
             fill("red");
             percent = floor(objects[i].confidence * 100);
             textSize(20);
-            text(objects[i].label + " " + percent + "%", objects[i].x, objects[i].y - 5)
+            text(objects[i].label + " " + percent + "%", objects[i].x+100, objects[i].y + 70)
             noFill()
             stroke("red")
-            rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height)
+            rect(objects[i].x+100, objects[i].y+70, objects[i].width+100, objects[i].height+100)
         }
     }
 }
